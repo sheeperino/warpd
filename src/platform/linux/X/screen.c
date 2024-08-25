@@ -9,7 +9,7 @@ static void window_set_color(Window w, const char *color)
 
 	XSetWindowAttributes attr = {0};
 	attr.background_pixel = col;
-	XChangeWindowAttributes(dpy,w,CWBackPixel,&attr);
+	XChangeWindowAttributes(dpy, w, CWBackPixel, &attr);
 
 	XClearWindow(dpy, w);
 }
@@ -75,7 +75,8 @@ void x_screen_clear(struct screen *scr)
 	scr->nr_boxes = 0;
 }
 
-void x_screen_draw_box(struct screen *scr, int x, int y, int w, int h, const char *color)
+void x_screen_draw_box(struct screen *scr, int x, int y, int w, int h,
+		       const char *color)
 {
 	assert(scr->nr_boxes < MAX_BOXES);
 
@@ -89,4 +90,3 @@ void x_screen_draw_box(struct screen *scr, int x, int y, int w, int h, const cha
 	XMoveResizeWindow(dpy, box->win, scr->x + x, scr->y + y, w, h);
 	XRaiseWindow(dpy, box->win);
 }
-

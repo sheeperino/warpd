@@ -3,18 +3,20 @@
 #ifndef WLR_LAYER_SHELL_UNSTABLE_V1_CLIENT_PROTOCOL_H
 #define WLR_LAYER_SHELL_UNSTABLE_V1_CLIENT_PROTOCOL_H
 
-#include <stdint.h>
-#include <stddef.h>
 #include "wayland-client.h"
+#include <stddef.h>
+#include <stdint.h>
 
-#ifdef  __cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 
 /**
- * @page page_wlr_layer_shell_unstable_v1 The wlr_layer_shell_unstable_v1 protocol
+ * @page page_wlr_layer_shell_unstable_v1 The wlr_layer_shell_unstable_v1
+ * protocol
  * @section page_ifaces_wlr_layer_shell_unstable_v1 Interfaces
- * - @subpage page_iface_zwlr_layer_shell_v1 - create surfaces that are layers of the desktop
+ * - @subpage page_iface_zwlr_layer_shell_v1 - create surfaces that are layers
+ * of the desktop
  * - @subpage page_iface_zwlr_layer_surface_v1 - layer metadata interface
  * @section page_copyright_wlr_layer_shell_unstable_v1 Copyright
  * <pre>
@@ -158,8 +160,7 @@ enum zwlr_layer_shell_v1_layer {
 #endif /* ZWLR_LAYER_SHELL_V1_LAYER_ENUM */
 
 #define ZWLR_LAYER_SHELL_V1_GET_LAYER_SURFACE 0
-#define ZWLR_LAYER_SHELL_V1_DESTROY 1
-
+#define ZWLR_LAYER_SHELL_V1_DESTROY	      1
 
 /**
  * @ingroup iface_zwlr_layer_shell_v1
@@ -171,23 +172,24 @@ enum zwlr_layer_shell_v1_layer {
 #define ZWLR_LAYER_SHELL_V1_DESTROY_SINCE_VERSION 3
 
 /** @ingroup iface_zwlr_layer_shell_v1 */
-static inline void
-zwlr_layer_shell_v1_set_user_data(struct zwlr_layer_shell_v1 *zwlr_layer_shell_v1, void *user_data)
+static inline void zwlr_layer_shell_v1_set_user_data(
+    struct zwlr_layer_shell_v1 *zwlr_layer_shell_v1, void *user_data)
 {
-	wl_proxy_set_user_data((struct wl_proxy *) zwlr_layer_shell_v1, user_data);
+	wl_proxy_set_user_data((struct wl_proxy *)zwlr_layer_shell_v1,
+			       user_data);
 }
 
 /** @ingroup iface_zwlr_layer_shell_v1 */
-static inline void *
-zwlr_layer_shell_v1_get_user_data(struct zwlr_layer_shell_v1 *zwlr_layer_shell_v1)
+static inline void *zwlr_layer_shell_v1_get_user_data(
+    struct zwlr_layer_shell_v1 *zwlr_layer_shell_v1)
 {
-	return wl_proxy_get_user_data((struct wl_proxy *) zwlr_layer_shell_v1);
+	return wl_proxy_get_user_data((struct wl_proxy *)zwlr_layer_shell_v1);
 }
 
 static inline uint32_t
 zwlr_layer_shell_v1_get_version(struct zwlr_layer_shell_v1 *zwlr_layer_shell_v1)
 {
-	return wl_proxy_get_version((struct wl_proxy *) zwlr_layer_shell_v1);
+	return wl_proxy_get_version((struct wl_proxy *)zwlr_layer_shell_v1);
 }
 
 /**
@@ -216,14 +218,19 @@ zwlr_layer_shell_v1_get_version(struct zwlr_layer_shell_v1 *zwlr_layer_shell_v1)
  * surface.
  */
 static inline struct zwlr_layer_surface_v1 *
-zwlr_layer_shell_v1_get_layer_surface(struct zwlr_layer_shell_v1 *zwlr_layer_shell_v1, struct wl_surface *surface, struct wl_output *output, uint32_t layer, const char *namespace)
+zwlr_layer_shell_v1_get_layer_surface(
+    struct zwlr_layer_shell_v1 *zwlr_layer_shell_v1, struct wl_surface *surface,
+    struct wl_output *output, uint32_t layer, const char *namespace)
 {
 	struct wl_proxy *id;
 
-	id = wl_proxy_marshal_constructor((struct wl_proxy *) zwlr_layer_shell_v1,
-			 ZWLR_LAYER_SHELL_V1_GET_LAYER_SURFACE, &zwlr_layer_surface_v1_interface, NULL, surface, output, layer, namespace);
+	id =
+	    wl_proxy_marshal_constructor((struct wl_proxy *)zwlr_layer_shell_v1,
+					 ZWLR_LAYER_SHELL_V1_GET_LAYER_SURFACE,
+					 &zwlr_layer_surface_v1_interface, NULL,
+					 surface, output, layer, namespace);
 
-	return (struct zwlr_layer_surface_v1 *) id;
+	return (struct zwlr_layer_surface_v1 *)id;
 }
 
 /**
@@ -236,10 +243,10 @@ zwlr_layer_shell_v1_get_layer_surface(struct zwlr_layer_shell_v1 *zwlr_layer_she
 static inline void
 zwlr_layer_shell_v1_destroy(struct zwlr_layer_shell_v1 *zwlr_layer_shell_v1)
 {
-	wl_proxy_marshal((struct wl_proxy *) zwlr_layer_shell_v1,
+	wl_proxy_marshal((struct wl_proxy *)zwlr_layer_shell_v1,
 			 ZWLR_LAYER_SHELL_V1_DESTROY);
 
-	wl_proxy_destroy((struct wl_proxy *) zwlr_layer_shell_v1);
+	wl_proxy_destroy((struct wl_proxy *)zwlr_layer_shell_v1);
 }
 
 #ifndef ZWLR_LAYER_SURFACE_V1_KEYBOARD_INTERACTIVITY_ENUM
@@ -356,9 +363,7 @@ struct zwlr_layer_surface_v1_listener {
 	 */
 	void (*configure)(void *data,
 			  struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1,
-			  uint32_t serial,
-			  uint32_t width,
-			  uint32_t height);
+			  uint32_t serial, uint32_t width, uint32_t height);
 	/**
 	 * surface should be closed
 	 *
@@ -376,23 +381,23 @@ struct zwlr_layer_surface_v1_listener {
 /**
  * @ingroup iface_zwlr_layer_surface_v1
  */
-static inline int
-zwlr_layer_surface_v1_add_listener(struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1,
-				   const struct zwlr_layer_surface_v1_listener *listener, void *data)
+static inline int zwlr_layer_surface_v1_add_listener(
+    struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1,
+    const struct zwlr_layer_surface_v1_listener *listener, void *data)
 {
-	return wl_proxy_add_listener((struct wl_proxy *) zwlr_layer_surface_v1,
-				     (void (**)(void)) listener, data);
+	return wl_proxy_add_listener((struct wl_proxy *)zwlr_layer_surface_v1,
+				     (void (**)(void))listener, data);
 }
 
-#define ZWLR_LAYER_SURFACE_V1_SET_SIZE 0
-#define ZWLR_LAYER_SURFACE_V1_SET_ANCHOR 1
-#define ZWLR_LAYER_SURFACE_V1_SET_EXCLUSIVE_ZONE 2
-#define ZWLR_LAYER_SURFACE_V1_SET_MARGIN 3
+#define ZWLR_LAYER_SURFACE_V1_SET_SIZE			 0
+#define ZWLR_LAYER_SURFACE_V1_SET_ANCHOR		 1
+#define ZWLR_LAYER_SURFACE_V1_SET_EXCLUSIVE_ZONE	 2
+#define ZWLR_LAYER_SURFACE_V1_SET_MARGIN		 3
 #define ZWLR_LAYER_SURFACE_V1_SET_KEYBOARD_INTERACTIVITY 4
-#define ZWLR_LAYER_SURFACE_V1_GET_POPUP 5
-#define ZWLR_LAYER_SURFACE_V1_ACK_CONFIGURE 6
-#define ZWLR_LAYER_SURFACE_V1_DESTROY 7
-#define ZWLR_LAYER_SURFACE_V1_SET_LAYER 8
+#define ZWLR_LAYER_SURFACE_V1_GET_POPUP			 5
+#define ZWLR_LAYER_SURFACE_V1_ACK_CONFIGURE		 6
+#define ZWLR_LAYER_SURFACE_V1_DESTROY			 7
+#define ZWLR_LAYER_SURFACE_V1_SET_LAYER			 8
 
 /**
  * @ingroup iface_zwlr_layer_surface_v1
@@ -441,23 +446,24 @@ zwlr_layer_surface_v1_add_listener(struct zwlr_layer_surface_v1 *zwlr_layer_surf
 #define ZWLR_LAYER_SURFACE_V1_SET_LAYER_SINCE_VERSION 2
 
 /** @ingroup iface_zwlr_layer_surface_v1 */
-static inline void
-zwlr_layer_surface_v1_set_user_data(struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1, void *user_data)
+static inline void zwlr_layer_surface_v1_set_user_data(
+    struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1, void *user_data)
 {
-	wl_proxy_set_user_data((struct wl_proxy *) zwlr_layer_surface_v1, user_data);
+	wl_proxy_set_user_data((struct wl_proxy *)zwlr_layer_surface_v1,
+			       user_data);
 }
 
 /** @ingroup iface_zwlr_layer_surface_v1 */
-static inline void *
-zwlr_layer_surface_v1_get_user_data(struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1)
+static inline void *zwlr_layer_surface_v1_get_user_data(
+    struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1)
 {
-	return wl_proxy_get_user_data((struct wl_proxy *) zwlr_layer_surface_v1);
+	return wl_proxy_get_user_data((struct wl_proxy *)zwlr_layer_surface_v1);
 }
 
-static inline uint32_t
-zwlr_layer_surface_v1_get_version(struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1)
+static inline uint32_t zwlr_layer_surface_v1_get_version(
+    struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1)
 {
-	return wl_proxy_get_version((struct wl_proxy *) zwlr_layer_surface_v1);
+	return wl_proxy_get_version((struct wl_proxy *)zwlr_layer_surface_v1);
 }
 
 /**
@@ -474,10 +480,11 @@ zwlr_layer_surface_v1_get_version(struct zwlr_layer_surface_v1 *zwlr_layer_surfa
  *
  * Size is double-buffered, see wl_surface.commit.
  */
-static inline void
-zwlr_layer_surface_v1_set_size(struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1, uint32_t width, uint32_t height)
+static inline void zwlr_layer_surface_v1_set_size(
+    struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1, uint32_t width,
+    uint32_t height)
 {
-	wl_proxy_marshal((struct wl_proxy *) zwlr_layer_surface_v1,
+	wl_proxy_marshal((struct wl_proxy *)zwlr_layer_surface_v1,
 			 ZWLR_LAYER_SURFACE_V1_SET_SIZE, width, height);
 }
 
@@ -492,10 +499,10 @@ zwlr_layer_surface_v1_set_size(struct zwlr_layer_surface_v1 *zwlr_layer_surface_
  *
  * Anchor is double-buffered, see wl_surface.commit.
  */
-static inline void
-zwlr_layer_surface_v1_set_anchor(struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1, uint32_t anchor)
+static inline void zwlr_layer_surface_v1_set_anchor(
+    struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1, uint32_t anchor)
 {
-	wl_proxy_marshal((struct wl_proxy *) zwlr_layer_surface_v1,
+	wl_proxy_marshal((struct wl_proxy *)zwlr_layer_surface_v1,
 			 ZWLR_LAYER_SURFACE_V1_SET_ANCHOR, anchor);
 }
 
@@ -535,10 +542,10 @@ zwlr_layer_surface_v1_set_anchor(struct zwlr_layer_surface_v1 *zwlr_layer_surfac
  *
  * Exclusive zone is double-buffered, see wl_surface.commit.
  */
-static inline void
-zwlr_layer_surface_v1_set_exclusive_zone(struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1, int32_t zone)
+static inline void zwlr_layer_surface_v1_set_exclusive_zone(
+    struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1, int32_t zone)
 {
-	wl_proxy_marshal((struct wl_proxy *) zwlr_layer_surface_v1,
+	wl_proxy_marshal((struct wl_proxy *)zwlr_layer_surface_v1,
 			 ZWLR_LAYER_SURFACE_V1_SET_EXCLUSIVE_ZONE, zone);
 }
 
@@ -553,11 +560,13 @@ zwlr_layer_surface_v1_set_exclusive_zone(struct zwlr_layer_surface_v1 *zwlr_laye
  *
  * Margin is double-buffered, see wl_surface.commit.
  */
-static inline void
-zwlr_layer_surface_v1_set_margin(struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1, int32_t top, int32_t right, int32_t bottom, int32_t left)
+static inline void zwlr_layer_surface_v1_set_margin(
+    struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1, int32_t top,
+    int32_t right, int32_t bottom, int32_t left)
 {
-	wl_proxy_marshal((struct wl_proxy *) zwlr_layer_surface_v1,
-			 ZWLR_LAYER_SURFACE_V1_SET_MARGIN, top, right, bottom, left);
+	wl_proxy_marshal((struct wl_proxy *)zwlr_layer_surface_v1,
+			 ZWLR_LAYER_SURFACE_V1_SET_MARGIN, top, right, bottom,
+			 left);
 }
 
 /**
@@ -576,11 +585,13 @@ zwlr_layer_surface_v1_set_margin(struct zwlr_layer_surface_v1 *zwlr_layer_surfac
  *
  * Keyboard interactivity is double-buffered, see wl_surface.commit.
  */
-static inline void
-zwlr_layer_surface_v1_set_keyboard_interactivity(struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1, uint32_t keyboard_interactivity)
+static inline void zwlr_layer_surface_v1_set_keyboard_interactivity(
+    struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1,
+    uint32_t keyboard_interactivity)
 {
-	wl_proxy_marshal((struct wl_proxy *) zwlr_layer_surface_v1,
-			 ZWLR_LAYER_SURFACE_V1_SET_KEYBOARD_INTERACTIVITY, keyboard_interactivity);
+	wl_proxy_marshal((struct wl_proxy *)zwlr_layer_surface_v1,
+			 ZWLR_LAYER_SURFACE_V1_SET_KEYBOARD_INTERACTIVITY,
+			 keyboard_interactivity);
 }
 
 /**
@@ -594,10 +605,11 @@ zwlr_layer_surface_v1_set_keyboard_interactivity(struct zwlr_layer_surface_v1 *z
  * See the documentation of xdg_popup for more details about what an
  * xdg_popup is and how it is used.
  */
-static inline void
-zwlr_layer_surface_v1_get_popup(struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1, struct xdg_popup *popup)
+static inline void zwlr_layer_surface_v1_get_popup(
+    struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1,
+    struct xdg_popup *popup)
 {
-	wl_proxy_marshal((struct wl_proxy *) zwlr_layer_surface_v1,
+	wl_proxy_marshal((struct wl_proxy *)zwlr_layer_surface_v1,
 			 ZWLR_LAYER_SURFACE_V1_GET_POPUP, popup);
 }
 
@@ -620,10 +632,10 @@ zwlr_layer_surface_v1_get_popup(struct zwlr_layer_surface_v1 *zwlr_layer_surface
  * only the last request sent before a commit indicates which configure
  * event the client really is responding to.
  */
-static inline void
-zwlr_layer_surface_v1_ack_configure(struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1, uint32_t serial)
+static inline void zwlr_layer_surface_v1_ack_configure(
+    struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1, uint32_t serial)
 {
-	wl_proxy_marshal((struct wl_proxy *) zwlr_layer_surface_v1,
+	wl_proxy_marshal((struct wl_proxy *)zwlr_layer_surface_v1,
 			 ZWLR_LAYER_SURFACE_V1_ACK_CONFIGURE, serial);
 }
 
@@ -632,13 +644,13 @@ zwlr_layer_surface_v1_ack_configure(struct zwlr_layer_surface_v1 *zwlr_layer_sur
  *
  * This request destroys the layer surface.
  */
-static inline void
-zwlr_layer_surface_v1_destroy(struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1)
+static inline void zwlr_layer_surface_v1_destroy(
+    struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1)
 {
-	wl_proxy_marshal((struct wl_proxy *) zwlr_layer_surface_v1,
+	wl_proxy_marshal((struct wl_proxy *)zwlr_layer_surface_v1,
 			 ZWLR_LAYER_SURFACE_V1_DESTROY);
 
-	wl_proxy_destroy((struct wl_proxy *) zwlr_layer_surface_v1);
+	wl_proxy_destroy((struct wl_proxy *)zwlr_layer_surface_v1);
 }
 
 /**
@@ -648,14 +660,14 @@ zwlr_layer_surface_v1_destroy(struct zwlr_layer_surface_v1 *zwlr_layer_surface_v
  *
  * Layer is double-buffered, see wl_surface.commit.
  */
-static inline void
-zwlr_layer_surface_v1_set_layer(struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1, uint32_t layer)
+static inline void zwlr_layer_surface_v1_set_layer(
+    struct zwlr_layer_surface_v1 *zwlr_layer_surface_v1, uint32_t layer)
 {
-	wl_proxy_marshal((struct wl_proxy *) zwlr_layer_surface_v1,
+	wl_proxy_marshal((struct wl_proxy *)zwlr_layer_surface_v1,
 			 ZWLR_LAYER_SURFACE_V1_SET_LAYER, layer);
 }
 
-#ifdef  __cplusplus
+#ifdef __cplusplus
 }
 #endif
 

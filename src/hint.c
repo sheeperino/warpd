@@ -59,7 +59,6 @@ static size_t generate_fullscreen_hints(screen_t scr, struct hint *hints)
 	const int nr = strlen(chars);
 	const int nc = strlen(chars);
 
-
 	const int colgap = sw / nc - w;
 	const int rowgap = sh / nr - h;
 
@@ -109,9 +108,9 @@ static int hint_selection(screen_t scr, struct hint *_hints, size_t _nr_hints)
 	platform->mouse_hide();
 
 	const char *keys[] = {
-		"hint_exit",
-		"hint_undo_all",
-		"hint_undo",
+	    "hint_exit",
+	    "hint_undo_all",
+	    "hint_undo",
 	};
 
 	config_input_whitelist(keys, sizeof keys / sizeof keys[0]);
@@ -160,7 +159,7 @@ static int hint_selection(screen_t scr, struct hint *_hints, size_t _nr_hints)
 			 * text selection widgets which don't like spontaneous
 			 * cursor warping.
 			 */
-			platform->mouse_move(scr, nx+1, ny+1);
+			platform->mouse_move(scr, nx + 1, ny + 1);
 
 			platform->mouse_move(scr, nx, ny);
 			strcpy(last_selected_hint, buf);
@@ -184,7 +183,7 @@ static int sift()
 	int hint_sz = config_get_int("hint2_size");
 
 	const char *chars = config_get("hint2_chars");
-	size_t chars_len= strlen(chars);
+	size_t chars_len = strlen(chars);
 
 	int grid_sz = config_get_int("hint2_grid_size");
 
@@ -222,17 +221,16 @@ static int sift()
 
 				n++;
 			}
-	}
+		}
 
 	return hint_selection(scr, hints, n);
 }
 
 void init_hints()
 {
-	platform->init_hint(config_get("hint_bgcolor"),
-			    config_get("hint_fgcolor"),
-			    config_get_int("hint_border_radius"),
-			    config_get("hint_font"));
+	platform->init_hint(
+	    config_get("hint_bgcolor"), config_get("hint_fgcolor"),
+	    config_get_int("hint_border_radius"), config_get("hint_font"));
 }
 
 int hintspec_mode()
@@ -249,15 +247,13 @@ int hintspec_mode()
 
 	get_hint_size(scr, &w, &h);
 
-	while (scanf("%15s %d %d",
-		hints[n].label,
-		&hints[n].x,
-		&hints[n].y) == 3) {
+	while (scanf("%15s %d %d", hints[n].label, &hints[n].x, &hints[n].y) ==
+	       3) {
 
 		hints[n].w = w;
 		hints[n].h = h;
-		hints[n].x -= w/2;
-		hints[n].y -= h/2;
+		hints[n].x -= w / 2;
+		hints[n].y -= h / 2;
 
 		n++;
 	}
@@ -305,10 +301,10 @@ int history_hint_mode()
 		hints[i].w = w;
 		hints[i].h = h;
 
-		hints[i].x = ents[i].x - w/2;
-		hints[i].y = ents[i].y - h/2;
+		hints[i].x = ents[i].x - w / 2;
+		hints[i].y = ents[i].y - h / 2;
 
-		hints[i].label[0] = 'a'+i;
+		hints[i].label[0] = 'a' + i;
 		hints[i].label[1] = 0;
 	}
 

@@ -14,9 +14,8 @@ static int calculate_font_size(cairo_t *cr, int w, int h)
 	cairo_text_extents_t extents;
 	size_t sz = 100;
 
-	cairo_select_font_face (cr,
-				font_family,
-				CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL);
+	cairo_select_font_face(cr, font_family, CAIRO_FONT_SLANT_NORMAL,
+			       CAIRO_FONT_WEIGHT_NORMAL);
 
 	do {
 		cairo_set_font_size(cr, sz);
@@ -27,27 +26,28 @@ static int calculate_font_size(cairo_t *cr, int w, int h)
 	return sz;
 }
 
-static void cairo_draw_text(cairo_t *cr, const char *s, int x, int y, int w, int h)
+static void cairo_draw_text(cairo_t *cr, const char *s, int x, int y, int w,
+			    int h)
 {
 	int ptsz = calculate_font_size(cr, w, h);
 
-	cairo_select_font_face (cr,
-				font_family,
-				CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL);
+	cairo_select_font_face(cr, font_family, CAIRO_FONT_SLANT_NORMAL,
+			       CAIRO_FONT_WEIGHT_NORMAL);
 
 	cairo_text_extents_t extents;
 	cairo_set_font_size(cr, ptsz);
 
 	cairo_text_extents(cr, s, &extents);
 
-	cairo_move_to(cr, x + (w-extents.width)/2, y-extents.y_bearing + (h-extents.height)/2);
+	cairo_move_to(cr, x + (w - extents.width) / 2,
+		      y - extents.y_bearing + (h - extents.height) / 2);
 	cairo_show_text(cr, s);
 }
 
 void way_hint_draw(struct screen *scr, struct hint *hints, size_t n)
 {
 	size_t i;
-	uint8_t r,g,b,a;
+	uint8_t r, g, b, a;
 
 	cairo_t *cr = scr->cr;
 
@@ -77,12 +77,13 @@ void way_hint_draw(struct screen *scr, struct hint *hints, size_t n)
 	scr->hints = create_surface(scr, 0, 0, scr->w, scr->h, 0);
 }
 
-void way_init_hint(const char *bg, const char *fg, int border_radius, const char *font)
+void way_init_hint(const char *bg, const char *fg, int border_radius,
+		   const char *font)
 {
 	strncpy(bgcolor, bg, sizeof bgcolor);
 	strncpy(fgcolor, fg, sizeof fgcolor);
 
-	//TODO: handle border radius
+	// TODO: handle border radius
 
 	font_family = font;
 }

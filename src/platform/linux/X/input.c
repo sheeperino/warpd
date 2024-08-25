@@ -9,7 +9,6 @@
 static int nr_grabbed_device_ids = 0;
 static int grabbed_device_ids[64];
 
-
 uint8_t x_active_mods = 0;
 
 /* clear the X keyboard state. */
@@ -141,7 +140,8 @@ static const char *xerr_key = NULL;
 static int input_xerr(Display *dpy, XErrorEvent *ev)
 {
 	fprintf(stderr,
-		"ERROR: Failed to grab %s (ensure it isn't mapped by another application)\n",
+		"ERROR: Failed to grab %s (ensure it isn't mapped by another "
+		"application)\n",
 		xerr_key);
 	return 0;
 }
@@ -149,7 +149,8 @@ static int input_xerr(Display *dpy, XErrorEvent *ev)
 static const char *input_tostr(struct input_event *ev)
 {
 	static char s[64];
-	const char *name = x_input_lookup_name(ev->code, ev->mods & PLATFORM_MOD_SHIFT ? 1 : 0);
+	const char *name = x_input_lookup_name(
+	    ev->code, ev->mods & PLATFORM_MOD_SHIFT ? 1 : 0);
 	int n = 0;
 
 	if (!ev)
@@ -199,7 +200,8 @@ static void xgrab_key(uint8_t code, uint8_t mods, int grab)
 			 GrabModeAsync, GrabModeAsync);
 
 		XGrabKey(dpy, code, xmods | Mod2Mask, /* numlock */
-			 DefaultRootWindow(dpy), False, GrabModeAsync, GrabModeAsync);
+			 DefaultRootWindow(dpy), False, GrabModeAsync,
+			 GrabModeAsync);
 	} else {
 		XUngrabKey(dpy, code, xmods, DefaultRootWindow(dpy));
 		XUngrabKey(dpy, code, xmods | Mod2Mask, DefaultRootWindow(dpy));
@@ -234,7 +236,8 @@ void x_input_grab_keyboard()
 		}
 	}
 
-	/* send a key up event for any depressed keys to avoid infinite repeat. */
+	/* send a key up event for any depressed keys to avoid infinite repeat.
+	 */
 	reset_keyboard();
 	XIFreeDeviceInfo(devices);
 
@@ -343,9 +346,11 @@ struct input_event *x_input_next_event(int timeout)
 				ev.mods = xmods_to_mods(xmods);
 
 				if (state)
-					x_active_mods |= get_code_modifier(code);
+					x_active_mods |=
+					    get_code_modifier(code);
 				else
-					x_active_mods &= ~get_code_modifier(code);
+					x_active_mods &=
+					    ~get_code_modifier(code);
 
 				return &ev;
 			}
@@ -388,7 +393,8 @@ struct input_event *x_input_wait(struct input_event *events, size_t sz)
 		} else {
 			size_t i;
 			for (i = 0; i < nr_monitored_files; i++) {
-				long mtime = x_get_mtime(monitored_files[i].path);
+				long mtime =
+				    x_get_mtime(monitored_files[i].path);
 				if (mtime != monitored_files[i].mtime) {
 					monitored_files[i].mtime = mtime;
 					goto exit;
@@ -411,17 +417,17 @@ struct {
 	const char *name;
 	const char *xname;
 } normalization_map[] = {
-	{"esc", "Escape"},
-	{",", "comma"},
-	{".", "period"},
-	{"-", "minus"},
-	{"/", "slash"},
-	{";", "semicolon"},
-	{"[", "bracketleft"},
-	{"]", "bracketright"},
-	{"'", "apostrophe"},
-	{"$", "dollar"},
-	{"backspace", "BackSpace"},
+    {"esc", "Escape"},
+    {",", "comma"},
+    {".", "period"},
+    {"-", "minus"},
+    {"/", "slash"},
+    {";", "semicolon"},
+    {"[", "bracketleft"},
+    {"]", "bracketright"},
+    {"'", "apostrophe"},
+    {"$", "dollar"},
+    {"backspace", "BackSpace"},
 };
 
 uint8_t x_input_lookup_code(const char *name, int *shifted)
@@ -429,7 +435,8 @@ uint8_t x_input_lookup_code(const char *name, int *shifted)
 	uint8_t code = 0;
 	size_t i;
 
-	for (i = 0; i < sizeof normalization_map / sizeof normalization_map[0]; i++)
+	for (i = 0; i < sizeof normalization_map / sizeof normalization_map[0];
+	     i++)
 		if (!strcmp(normalization_map[i].name, name))
 			name = normalization_map[i].xname;
 
@@ -437,14 +444,13 @@ uint8_t x_input_lookup_code(const char *name, int *shifted)
 
 	if (!sym)
 		return 0;
-	
+
 	code = XKeysymToKeycode(dpy, sym);
 
 	if (XKeycodeToKeysym(dpy, code, 0) != sym)
 		*shifted = 1;
 	else
 		*shifted = 0;
-
 
 	return code;
 }
@@ -459,7 +465,8 @@ const char *x_input_lookup_name(uint8_t code, int shifted)
 
 	name = XKeysymToString(sym);
 
-	for (i = 0; i < sizeof normalization_map / sizeof normalization_map[0]; i++)
+	for (i = 0; i < sizeof normalization_map / sizeof normalization_map[0];
+	     i++)
 		if (!strcmp(normalization_map[i].xname, name))
 			name = normalization_map[i].name;
 

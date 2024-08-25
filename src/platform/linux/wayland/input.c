@@ -49,10 +49,9 @@ static void update_mods(uint8_t code, uint8_t pressed)
 	}
 }
 
-static void handle_key(void *data,
-		       struct wl_keyboard *wl_keyboard,
-		       uint32_t serial,
-		       uint32_t time, uint32_t code, uint32_t state)
+static void handle_key(void *data, struct wl_keyboard *wl_keyboard,
+		       uint32_t serial, uint32_t time, uint32_t code,
+		       uint32_t state)
 {
 	struct input_event *ev = &input_queue[input_queue_sz++];
 
@@ -63,8 +62,7 @@ static void handle_key(void *data,
 	ev->mods = x_active_mods;
 }
 
-static void handle_keymap(void *data,
-			  struct wl_keyboard *wl_keyboard,
+static void handle_keymap(void *data, struct wl_keyboard *wl_keyboard,
 			  uint32_t format, int32_t fd, uint32_t size)
 {
 	size_t i;
@@ -81,7 +79,8 @@ static void handle_keymap(void *data,
 	ctx = xkb_context_new(0);
 	assert(ctx);
 
-	xkbmap = xkb_keymap_new_from_string(ctx, buf, XKB_KEYMAP_FORMAT_TEXT_V1, 0);
+	xkbmap =
+	    xkb_keymap_new_from_string(ctx, buf, XKB_KEYMAP_FORMAT_TEXT_V1, 0);
 
 	assert(xkbmap);
 	xkbstate = xkb_state_new(xkbmap);
@@ -89,17 +88,18 @@ static void handle_keymap(void *data,
 
 	for (i = 0; i < 248; i++) {
 		const xkb_keysym_t *syms;
-		if (xkb_keymap_key_get_syms_by_level(xkbmap, i+8,
-						     xkb_state_key_get_layout(xkbstate, i+8),
-						     0, &syms)) {
-			xkb_keysym_get_name(syms[0], keymap[i].name, sizeof keymap[i].name);
+		if (xkb_keymap_key_get_syms_by_level(
+			xkbmap, i + 8,
+			xkb_state_key_get_layout(xkbstate, i + 8), 0, &syms)) {
+			xkb_keysym_get_name(syms[0], keymap[i].name,
+					    sizeof keymap[i].name);
 		}
 
-		if (xkb_keymap_key_get_syms_by_level(xkbmap, i+8,
-						     xkb_state_key_get_layout(xkbstate, i+8),
-						     1,
-						     &syms)) {
-			xkb_keysym_get_name(syms[0], keymap[i].shifted_name, sizeof keymap[i].shifted_name);
+		if (xkb_keymap_key_get_syms_by_level(
+			xkbmap, i + 8,
+			xkb_state_key_get_layout(xkbstate, i + 8), 1, &syms)) {
+			xkb_keysym_get_name(syms[0], keymap[i].shifted_name,
+					    sizeof keymap[i].shifted_name);
 		}
 	}
 	xkb_state_unref(xkbstate);
@@ -108,31 +108,26 @@ static void handle_keymap(void *data,
 }
 
 static int input_grabbed = 0;
-static void handle_enter(void *data,
-			 struct wl_keyboard *wl_keyboard,
-			 uint32_t serial,
-			 struct wl_surface *surface,
+static void handle_enter(void *data, struct wl_keyboard *wl_keyboard,
+			 uint32_t serial, struct wl_surface *surface,
 			 struct wl_array *keys)
 {
 	input_grabbed = 1;
 }
 
-static void handle_leave(void *data,
-			 struct wl_keyboard *wl_keyboard,
-			 uint32_t serial,
-			 struct wl_surface *surface)
+static void handle_leave(void *data, struct wl_keyboard *wl_keyboard,
+			 uint32_t serial, struct wl_surface *surface)
 {
 	input_grabbed = 0;
 }
 
-
 static struct wl_keyboard_listener wl_keyboard_listener = {
-	.key = handle_key,
-	.keymap = handle_keymap,
-	.enter = handle_enter,
-	.leave = handle_leave,
-	.modifiers = noop,
-	.repeat_info = noop,
+    .key = handle_key,
+    .keymap = handle_keymap,
+    .enter = handle_enter,
+    .leave = handle_leave,
+    .modifiers = noop,
+    .repeat_info = noop,
 };
 
 static struct surface *input_surface = NULL;
@@ -160,13 +155,12 @@ void way_input_ungrab_keyboard()
 	input_surface = NULL;
 }
 
-
 struct input_event *way_input_next_event(int timeout)
 {
 	static struct input_event ev;
 
 	struct pollfd pfds[] = {
-		{ .fd = wl_display_get_fd(wl.dpy), .events = POLLIN },
+	    {.fd = wl_display_get_fd(wl.dpy), .events = POLLIN},
 	};
 
 	while (1) {
@@ -175,12 +169,14 @@ struct input_event *way_input_next_event(int timeout)
 		if (input_queue_sz) {
 			input_queue_sz--;
 			ev = input_queue[0];
-			memcpy(input_queue, input_queue+1, sizeof(struct input_event)*input_queue_sz);
+			memcpy(input_queue, input_queue + 1,
+			       sizeof(struct input_event) * input_queue_sz);
 
 			return &ev;
 		}
 
-		if (!poll(pfds, sizeof pfds / sizeof pfds[0], timeout ? timeout : -1))
+		if (!poll(pfds, sizeof pfds / sizeof pfds[0],
+			  timeout ? timeout : -1))
 			return NULL;
 
 		wl_display_dispatch(wl.dpy);
@@ -189,5 +185,6 @@ struct input_event *way_input_next_event(int timeout)
 
 void init_input()
 {
-	wl_keyboard_add_listener(wl_seat_get_keyboard(wl.seat), &wl_keyboard_listener, NULL);
+	wl_keyboard_add_listener(wl_seat_get_keyboard(wl.seat),
+				 &wl_keyboard_listener, NULL);
 }

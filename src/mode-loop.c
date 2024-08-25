@@ -34,10 +34,11 @@ int mode_loop(int initial_mode, int oneshot, int record_history)
 				mode = MODE_GRID;
 			else if (config_input_match(ev, "screen"))
 				mode = MODE_SCREEN_SELECTION;
-			else if ((rc = config_input_match(ev, "oneshot_buttons")) || !ev) {
+			else if ((rc = config_input_match(ev,
+							  "oneshot_buttons")) ||
+				 !ev) {
 				goto exit;
-			}
-			else if (config_input_match(ev, "exit") || !ev) {
+			} else if (config_input_match(ev, "exit") || !ev) {
 				rc = 0;
 				goto exit;
 			}
@@ -64,7 +65,8 @@ int mode_loop(int initial_mode, int oneshot, int record_history)
 			break;
 		}
 
-		if (oneshot && (initial_mode != MODE_NORMAL || (btn = config_input_match(ev, "buttons")))) {
+		if (oneshot && (initial_mode != MODE_NORMAL ||
+				(btn = config_input_match(ev, "buttons")))) {
 			int x, y;
 			screen_t scr;
 
@@ -86,4 +88,3 @@ int mode_loop(int initial_mode, int oneshot, int record_history)
 exit:
 	return rc;
 }
-

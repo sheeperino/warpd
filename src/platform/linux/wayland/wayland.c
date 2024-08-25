@@ -3,13 +3,15 @@
  *
  * © 2019 Raheman Vaiya (see also: LICENSE).
  */
-#include <limits.h>
 #include "wayland.h"
+#include <limits.h>
 
-#define UNIMPLEMENTED { \
-	fprintf(stderr, "FATAL: wayland: %s unimplemented\n", __func__); \
-	exit(-1);							 \
-}
+#define UNIMPLEMENTED                                                          \
+	{                                                                      \
+		fprintf(stderr, "FATAL: wayland: %s unimplemented\n",          \
+			__func__);                                             \
+		exit(-1);                                                      \
+	}
 
 static uint8_t btn_state[3] = {0};
 
@@ -17,14 +19,10 @@ static struct {
 	const char *name;
 	const char *xname;
 } normalization_map[] = {
-	{"esc", "Escape"},
-	{",", "comma"},
-	{".", "period"},
-	{"-", "minus"},
-	{"/", "slash"},
-	{";", "semicolon"},
-	{"$", "dollar"},
-	{"backspace", "BackSpace"},
+    {"esc", "Escape"}, {",", "comma"},
+    {".", "period"},   {"-", "minus"},
+    {"/", "slash"},    {";", "semicolon"},
+    {"$", "dollar"},   {"backspace", "BackSpace"},
 };
 
 struct ptr ptr = {0};
@@ -35,7 +33,8 @@ uint8_t way_input_lookup_code(const char *name, int *shifted)
 {
 	size_t i;
 
-	for (i = 0; i < sizeof normalization_map / sizeof normalization_map[0]; i++)
+	for (i = 0; i < sizeof normalization_map / sizeof normalization_map[0];
+	     i++)
 		if (!strcmp(normalization_map[i].name, name))
 			name = normalization_map[i].xname;
 
@@ -60,8 +59,9 @@ const char *way_input_lookup_name(uint8_t code, int shifted)
 		name = keymap[code].shifted_name;
 	else if (!shifted && keymap[code].name[0])
 		name = keymap[code].name;
-	
-	for (i = 0; i < sizeof normalization_map / sizeof normalization_map[0]; i++)
+
+	for (i = 0; i < sizeof normalization_map / sizeof normalization_map[0];
+	     i++)
 		if (name && !strcmp(normalization_map[i].xname, name))
 			name = normalization_map[i].name;
 
@@ -99,27 +99,32 @@ void way_mouse_move(struct screen *scr, int x, int y)
 	 * Virtual pointer space always beings at 0,0, while global compositor
 	 * space may have a negative real origin :/.
 	 */
-	zwlr_virtual_pointer_v1_motion_absolute(wl.ptr, 0,
-						wl_fixed_from_int(x+scr->x-minx),
-						wl_fixed_from_int(y+scr->y-miny),
-						wl_fixed_from_int(maxx-minx),
-						wl_fixed_from_int(maxy-miny));
+	zwlr_virtual_pointer_v1_motion_absolute(
+	    wl.ptr, 0, wl_fixed_from_int(x + scr->x - minx),
+	    wl_fixed_from_int(y + scr->y - miny),
+	    wl_fixed_from_int(maxx - minx), wl_fixed_from_int(maxy - miny));
 	zwlr_virtual_pointer_v1_frame(wl.ptr);
 
 	wl_display_flush(wl.dpy);
 }
 
-#define normalize_btn(btn) \
-	switch (btn) { \
-		case 1: btn = 272;break; \
-		case 2: btn = 274;break; \
-		case 3: btn = 273;break; \
+#define normalize_btn(btn)                                                     \
+	switch (btn) {                                                         \
+	case 1:                                                                \
+		btn = 272;                                                     \
+		break;                                                         \
+	case 2:                                                                \
+		btn = 274;                                                     \
+		break;                                                         \
+	case 3:                                                                \
+		btn = 273;                                                     \
+		break;                                                         \
 	}
 
 void way_mouse_down(int btn)
 {
 	assert(btn < (int)(sizeof btn_state / sizeof btn_state[0]));
-	btn_state[btn-1] = 1;
+	btn_state[btn - 1] = 1;
 	normalize_btn(btn);
 	zwlr_virtual_pointer_v1_button(wl.ptr, 0, btn, 1);
 }
@@ -127,7 +132,7 @@ void way_mouse_down(int btn)
 void way_mouse_up(int btn)
 {
 	assert(btn < (int)(sizeof btn_state / sizeof btn_state[0]));
-	btn_state[btn-1] = 0;
+	btn_state[btn - 1] = 0;
 	normalize_btn(btn);
 	zwlr_virtual_pointer_v1_button(wl.ptr, 0, btn, 0);
 }
@@ -153,9 +158,7 @@ void way_mouse_get_position(struct screen **scr, int *x, int *y)
 		*y = ptr.y;
 }
 
-void way_mouse_show()
-{
-}
+void way_mouse_show() {}
 
 void way_mouse_hide()
 {
@@ -164,12 +167,11 @@ void way_mouse_hide()
 
 void way_scroll(int direction)
 {
-	//TODO: add horizontal scroll
+	// TODO: add horizontal scroll
 	direction = direction == SCROLL_DOWN ? 1 : -1;
 
-	zwlr_virtual_pointer_v1_axis_discrete(wl.ptr, 0, 0,
-					      wl_fixed_from_int(15*direction),
-					      direction);
+	zwlr_virtual_pointer_v1_axis_discrete(
+	    wl.ptr, 0, 0, wl_fixed_from_int(15 * direction), direction);
 
 	zwlr_virtual_pointer_v1_frame(wl.ptr);
 
@@ -177,7 +179,10 @@ void way_scroll(int direction)
 }
 
 void way_copy_selection() { UNIMPLEMENTED }
-struct input_event *way_input_wait(struct input_event *events, size_t sz) { UNIMPLEMENTED }
+struct input_event *way_input_wait(struct input_event *events, size_t sz)
+{
+	UNIMPLEMENTED
+}
 
 void way_screen_list(struct screen *scr[MAX_SCREENS], size_t *n)
 {
@@ -190,9 +195,7 @@ void way_screen_list(struct screen *scr[MAX_SCREENS], size_t *n)
 
 void way_monitor_file(const char *path) { UNIMPLEMENTED }
 
-void way_commit()
-{
-}
+void way_commit() {}
 
 static void cleanup()
 {

@@ -33,23 +33,22 @@
 #include <time.h>
 
 #ifndef _MSC_VER
-	#include <getopt.h>
-	#include <unistd.h>
-	#include <sys/file.h>
-	#include <sys/stat.h>
-	#include <sys/types.h>
+#include <getopt.h>
+#include <sys/file.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 #endif
-
 
 #ifndef PATH_MAX
 #define PATH_MAX 1024
 #endif
 
-#define MIN(a, b) (((a) < (b)) ? (a) : (b))
+#define MIN(a, b)     (((a) < (b)) ? (a) : (b))
 #define MAX_HIST_ENTS 16
 
 #ifdef _MSC_VER
-	typedef int ssize_t;
+typedef int ssize_t;
 #endif
 
 enum {
@@ -127,7 +126,6 @@ void hist_add(int x, int y);
 int hist_get(int *x, int *y);
 void hist_prev();
 void hist_next();
-
 
 size_t histfile_read(struct histfile_ent **entries);
 void histfile_add(int x, int y);

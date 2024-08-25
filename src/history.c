@@ -4,8 +4,8 @@
  * © 2019 Raheman Vaiya (see: LICENSE).
  */
 
-#include <stdlib.h>
 #include "warpd.h"
+#include <stdlib.h>
 
 /*
  * Local history intended to be updated within a given session.

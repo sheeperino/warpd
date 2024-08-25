@@ -1,6 +1,6 @@
+#include "../../platform.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "../../platform.h"
 
 void x_init();
 void wayland_init();
@@ -21,7 +21,7 @@ void wayland_init()
 }
 #endif
 
-void platform_run(int (*main) (struct platform *platform))
+void platform_run(int (*main)(struct platform *platform))
 {
 	struct platform platform;
 

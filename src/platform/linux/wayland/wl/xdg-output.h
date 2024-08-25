@@ -3,11 +3,11 @@
 #ifndef XDG_OUTPUT_UNSTABLE_V1_CLIENT_PROTOCOL_H
 #define XDG_OUTPUT_UNSTABLE_V1_CLIENT_PROTOCOL_H
 
-#include <stdint.h>
-#include <stddef.h>
 #include "wayland-client.h"
+#include <stddef.h>
+#include <stdint.h>
 
-#ifdef  __cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 
@@ -128,9 +128,8 @@ extern const struct wl_interface zxdg_output_manager_v1_interface;
 extern const struct wl_interface zxdg_output_v1_interface;
 #endif
 
-#define ZXDG_OUTPUT_MANAGER_V1_DESTROY 0
+#define ZXDG_OUTPUT_MANAGER_V1_DESTROY	      0
 #define ZXDG_OUTPUT_MANAGER_V1_GET_XDG_OUTPUT 1
-
 
 /**
  * @ingroup iface_zxdg_output_manager_v1
@@ -142,23 +141,25 @@ extern const struct wl_interface zxdg_output_v1_interface;
 #define ZXDG_OUTPUT_MANAGER_V1_GET_XDG_OUTPUT_SINCE_VERSION 1
 
 /** @ingroup iface_zxdg_output_manager_v1 */
-static inline void
-zxdg_output_manager_v1_set_user_data(struct zxdg_output_manager_v1 *zxdg_output_manager_v1, void *user_data)
+static inline void zxdg_output_manager_v1_set_user_data(
+    struct zxdg_output_manager_v1 *zxdg_output_manager_v1, void *user_data)
 {
-	wl_proxy_set_user_data((struct wl_proxy *) zxdg_output_manager_v1, user_data);
+	wl_proxy_set_user_data((struct wl_proxy *)zxdg_output_manager_v1,
+			       user_data);
 }
 
 /** @ingroup iface_zxdg_output_manager_v1 */
-static inline void *
-zxdg_output_manager_v1_get_user_data(struct zxdg_output_manager_v1 *zxdg_output_manager_v1)
+static inline void *zxdg_output_manager_v1_get_user_data(
+    struct zxdg_output_manager_v1 *zxdg_output_manager_v1)
 {
-	return wl_proxy_get_user_data((struct wl_proxy *) zxdg_output_manager_v1);
+	return wl_proxy_get_user_data(
+	    (struct wl_proxy *)zxdg_output_manager_v1);
 }
 
-static inline uint32_t
-zxdg_output_manager_v1_get_version(struct zxdg_output_manager_v1 *zxdg_output_manager_v1)
+static inline uint32_t zxdg_output_manager_v1_get_version(
+    struct zxdg_output_manager_v1 *zxdg_output_manager_v1)
 {
-	return wl_proxy_get_version((struct wl_proxy *) zxdg_output_manager_v1);
+	return wl_proxy_get_version((struct wl_proxy *)zxdg_output_manager_v1);
 }
 
 /**
@@ -169,13 +170,13 @@ zxdg_output_manager_v1_get_version(struct zxdg_output_manager_v1 *zxdg_output_ma
  *
  * Any objects already created through this instance are not affected.
  */
-static inline void
-zxdg_output_manager_v1_destroy(struct zxdg_output_manager_v1 *zxdg_output_manager_v1)
+static inline void zxdg_output_manager_v1_destroy(
+    struct zxdg_output_manager_v1 *zxdg_output_manager_v1)
 {
-	wl_proxy_marshal((struct wl_proxy *) zxdg_output_manager_v1,
+	wl_proxy_marshal((struct wl_proxy *)zxdg_output_manager_v1,
 			 ZXDG_OUTPUT_MANAGER_V1_DESTROY);
 
-	wl_proxy_destroy((struct wl_proxy *) zxdg_output_manager_v1);
+	wl_proxy_destroy((struct wl_proxy *)zxdg_output_manager_v1);
 }
 
 /**
@@ -183,15 +184,18 @@ zxdg_output_manager_v1_destroy(struct zxdg_output_manager_v1 *zxdg_output_manage
  *
  * This creates a new xdg_output object for the given wl_output.
  */
-static inline struct zxdg_output_v1 *
-zxdg_output_manager_v1_get_xdg_output(struct zxdg_output_manager_v1 *zxdg_output_manager_v1, struct wl_output *output)
+static inline struct zxdg_output_v1 *zxdg_output_manager_v1_get_xdg_output(
+    struct zxdg_output_manager_v1 *zxdg_output_manager_v1,
+    struct wl_output *output)
 {
 	struct wl_proxy *id;
 
-	id = wl_proxy_marshal_constructor((struct wl_proxy *) zxdg_output_manager_v1,
-			 ZXDG_OUTPUT_MANAGER_V1_GET_XDG_OUTPUT, &zxdg_output_v1_interface, NULL, output);
+	id = wl_proxy_marshal_constructor(
+	    (struct wl_proxy *)zxdg_output_manager_v1,
+	    ZXDG_OUTPUT_MANAGER_V1_GET_XDG_OUTPUT, &zxdg_output_v1_interface,
+	    NULL, output);
 
-	return (struct zxdg_output_v1 *) id;
+	return (struct zxdg_output_v1 *)id;
 }
 
 /**
@@ -214,8 +218,7 @@ struct zxdg_output_v1_listener {
 	 */
 	void (*logical_position)(void *data,
 				 struct zxdg_output_v1 *zxdg_output_v1,
-				 int32_t x,
-				 int32_t y);
+				 int32_t x, int32_t y);
 	/**
 	 * size of the output in the global compositor space
 	 *
@@ -259,10 +262,8 @@ struct zxdg_output_v1_listener {
 	 * @param width width in global compositor space
 	 * @param height height in global compositor space
 	 */
-	void (*logical_size)(void *data,
-			     struct zxdg_output_v1 *zxdg_output_v1,
-			     int32_t width,
-			     int32_t height);
+	void (*logical_size)(void *data, struct zxdg_output_v1 *zxdg_output_v1,
+			     int32_t width, int32_t height);
 	/**
 	 * all information about the output have been sent
 	 *
@@ -276,8 +277,7 @@ struct zxdg_output_v1_listener {
 	 * Compositors are not required to send it anymore and must send
 	 * wl_output.done instead.
 	 */
-	void (*done)(void *data,
-		     struct zxdg_output_v1 *zxdg_output_v1);
+	void (*done)(void *data, struct zxdg_output_v1 *zxdg_output_v1);
 	/**
 	 * name of this output
 	 *
@@ -304,8 +304,7 @@ struct zxdg_output_v1_listener {
 	 * @param name output name
 	 * @since 2
 	 */
-	void (*name)(void *data,
-		     struct zxdg_output_v1 *zxdg_output_v1,
+	void (*name)(void *data, struct zxdg_output_v1 *zxdg_output_v1,
 		     const char *name);
 	/**
 	 * human-readable description of this output
@@ -329,8 +328,7 @@ struct zxdg_output_v1_listener {
 	 * @param description output description
 	 * @since 2
 	 */
-	void (*description)(void *data,
-			    struct zxdg_output_v1 *zxdg_output_v1,
+	void (*description)(void *data, struct zxdg_output_v1 *zxdg_output_v1,
 			    const char *description);
 };
 
@@ -339,10 +337,11 @@ struct zxdg_output_v1_listener {
  */
 static inline int
 zxdg_output_v1_add_listener(struct zxdg_output_v1 *zxdg_output_v1,
-			    const struct zxdg_output_v1_listener *listener, void *data)
+			    const struct zxdg_output_v1_listener *listener,
+			    void *data)
 {
-	return wl_proxy_add_listener((struct wl_proxy *) zxdg_output_v1,
-				     (void (**)(void)) listener, data);
+	return wl_proxy_add_listener((struct wl_proxy *)zxdg_output_v1,
+				     (void (**)(void))listener, data);
 }
 
 #define ZXDG_OUTPUT_V1_DESTROY 0
@@ -375,22 +374,23 @@ zxdg_output_v1_add_listener(struct zxdg_output_v1 *zxdg_output_v1,
 
 /** @ingroup iface_zxdg_output_v1 */
 static inline void
-zxdg_output_v1_set_user_data(struct zxdg_output_v1 *zxdg_output_v1, void *user_data)
+zxdg_output_v1_set_user_data(struct zxdg_output_v1 *zxdg_output_v1,
+			     void *user_data)
 {
-	wl_proxy_set_user_data((struct wl_proxy *) zxdg_output_v1, user_data);
+	wl_proxy_set_user_data((struct wl_proxy *)zxdg_output_v1, user_data);
 }
 
 /** @ingroup iface_zxdg_output_v1 */
 static inline void *
 zxdg_output_v1_get_user_data(struct zxdg_output_v1 *zxdg_output_v1)
 {
-	return wl_proxy_get_user_data((struct wl_proxy *) zxdg_output_v1);
+	return wl_proxy_get_user_data((struct wl_proxy *)zxdg_output_v1);
 }
 
 static inline uint32_t
 zxdg_output_v1_get_version(struct zxdg_output_v1 *zxdg_output_v1)
 {
-	return wl_proxy_get_version((struct wl_proxy *) zxdg_output_v1);
+	return wl_proxy_get_version((struct wl_proxy *)zxdg_output_v1);
 }
 
 /**
@@ -399,16 +399,15 @@ zxdg_output_v1_get_version(struct zxdg_output_v1 *zxdg_output_v1)
  * Using this request a client can tell the server that it is not
  * going to use the xdg_output object anymore.
  */
-static inline void
-zxdg_output_v1_destroy(struct zxdg_output_v1 *zxdg_output_v1)
+static inline void zxdg_output_v1_destroy(struct zxdg_output_v1 *zxdg_output_v1)
 {
-	wl_proxy_marshal((struct wl_proxy *) zxdg_output_v1,
+	wl_proxy_marshal((struct wl_proxy *)zxdg_output_v1,
 			 ZXDG_OUTPUT_V1_DESTROY);
 
-	wl_proxy_destroy((struct wl_proxy *) zxdg_output_v1);
+	wl_proxy_destroy((struct wl_proxy *)zxdg_output_v1);
 }
 
-#ifdef  __cplusplus
+#ifdef __cplusplus
 }
 #endif
 

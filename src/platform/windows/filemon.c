@@ -27,8 +27,9 @@ static const char *dirname(const char *path)
 static uint64_t mtime(const char *path)
 {
 	FILETIME time;
-	HANDLE fh = CreateFile(path, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
-	assert (fh != INVALID_HANDLE_VALUE);
+	HANDLE fh = CreateFile(path, GENERIC_READ, FILE_SHARE_READ, NULL,
+			       OPEN_EXISTING, 0, NULL);
+	assert(fh != INVALID_HANDLE_VALUE);
 
 	GetFileTime(fh, NULL, NULL, &time);
 
@@ -42,11 +43,11 @@ static DWORD WINAPI mon_thread(void *arg)
 	struct mon_thread_args *args = arg;
 	const char *dir = dirname(args->path);
 
-
 	/* Monitor the parent directory. */
-	HANDLE mon = FindFirstChangeNotificationA(dir, FALSE, FILE_NOTIFY_CHANGE_LAST_WRITE);
+	HANDLE mon = FindFirstChangeNotificationA(
+	    dir, FALSE, FILE_NOTIFY_CHANGE_LAST_WRITE);
 
-	assert (mon != INVALID_HANDLE_VALUE);
+	assert(mon != INVALID_HANDLE_VALUE);
 
 	uint64_t last_time = mtime(args->path);
 
@@ -56,7 +57,8 @@ static DWORD WINAPI mon_thread(void *arg)
 		assert(WaitForSingleObject(mon, INFINITE) == WAIT_OBJECT_0);
 		FindNextChangeNotification(mon);
 
-		Sleep(100); /* Ugly hack to accommodate editors (e.g vim) which unlink the file before recreating it. */
+		Sleep(100); /* Ugly hack to accommodate editors (e.g vim) which
+			       unlink the file before recreating it. */
 		time = mtime(args->path);
 
 		if (last_time != time)

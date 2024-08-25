@@ -60,7 +60,8 @@ int input_parse_string(struct input_event *ev, const char *s)
 const char *input_event_tostr(struct input_event *ev)
 {
 	static char s[64];
-	const char *name = platform->input_lookup_name(ev->code, ev->mods & PLATFORM_MOD_SHIFT ? 1 : 0);
+	const char *name = platform->input_lookup_name(
+	    ev->code, ev->mods & PLATFORM_MOD_SHIFT ? 1 : 0);
 	int n = 0;
 
 	if (!ev)

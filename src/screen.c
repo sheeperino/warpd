@@ -43,7 +43,7 @@ void screen_selection_mode()
 		if (key[0] == screen_chars[i] && key[1] == 0) {
 			int w, h;
 			platform->screen_get_dimensions(screens[i], &w, &h);
-			platform->mouse_move(screens[i], w/2, h/2);
+			platform->mouse_move(screens[i], w / 2, h / 2);
 		}
 	}
 

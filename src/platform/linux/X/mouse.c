@@ -17,13 +17,17 @@ void x_mouse_down(int btn)
 void x_mouse_click(int btn)
 {
 	if (x_active_mods & PLATFORM_MOD_SHIFT)
-		XTestFakeKeyEvent(dpy, XKeysymToKeycode(dpy, XK_Shift_L), 1, CurrentTime);
+		XTestFakeKeyEvent(dpy, XKeysymToKeycode(dpy, XK_Shift_L), 1,
+				  CurrentTime);
 	if (x_active_mods & PLATFORM_MOD_CONTROL)
-		XTestFakeKeyEvent(dpy, XKeysymToKeycode(dpy, XK_Control_L), 1, CurrentTime);
+		XTestFakeKeyEvent(dpy, XKeysymToKeycode(dpy, XK_Control_L), 1,
+				  CurrentTime);
 	if (x_active_mods & PLATFORM_MOD_META)
-		XTestFakeKeyEvent(dpy, XKeysymToKeycode(dpy, XK_Meta_L), 1, CurrentTime);
+		XTestFakeKeyEvent(dpy, XKeysymToKeycode(dpy, XK_Meta_L), 1,
+				  CurrentTime);
 	if (x_active_mods & PLATFORM_MOD_ALT)
-		XTestFakeKeyEvent(dpy, XKeysymToKeycode(dpy, XK_Alt_L), 1, CurrentTime);
+		XTestFakeKeyEvent(dpy, XKeysymToKeycode(dpy, XK_Alt_L), 1,
+				  CurrentTime);
 
 	XSync(dpy, False);
 
@@ -33,22 +37,25 @@ void x_mouse_click(int btn)
 	XSync(dpy, False);
 
 	if (x_active_mods & PLATFORM_MOD_SHIFT)
-		XTestFakeKeyEvent(dpy, XKeysymToKeycode(dpy, XK_Shift_L), 0, CurrentTime);
+		XTestFakeKeyEvent(dpy, XKeysymToKeycode(dpy, XK_Shift_L), 0,
+				  CurrentTime);
 	if (x_active_mods & PLATFORM_MOD_CONTROL)
-		XTestFakeKeyEvent(dpy, XKeysymToKeycode(dpy, XK_Control_L), 0, CurrentTime);
+		XTestFakeKeyEvent(dpy, XKeysymToKeycode(dpy, XK_Control_L), 0,
+				  CurrentTime);
 	if (x_active_mods & PLATFORM_MOD_META)
-		XTestFakeKeyEvent(dpy, XKeysymToKeycode(dpy, XK_Meta_L), 0, CurrentTime);
+		XTestFakeKeyEvent(dpy, XKeysymToKeycode(dpy, XK_Meta_L), 0,
+				  CurrentTime);
 	if (x_active_mods & PLATFORM_MOD_ALT)
-		XTestFakeKeyEvent(dpy, XKeysymToKeycode(dpy, XK_Alt_L), 0, CurrentTime);
+		XTestFakeKeyEvent(dpy, XKeysymToKeycode(dpy, XK_Alt_L), 0,
+				  CurrentTime);
 
 	XSync(dpy, False);
 }
 
 void x_mouse_move(struct screen *scr, int x, int y)
 {
-	XTestFakeMotionEvent(dpy,
-			     DefaultScreen(dpy),
-			     scr->x + x, scr->y + y, 0);
+	XTestFakeMotionEvent(dpy, DefaultScreen(dpy), scr->x + x, scr->y + y,
+			     0);
 
 	XSync(dpy, False);
 }
